@@ -2,7 +2,7 @@ import {CursorMagnetic} from "./components/cursor-magnetic.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Header} from "@/components/header.tsx";
-import {StaggeredGrid} from "@/components/staggered-grid.tsx";
+// import {StaggeredGrid} from "@/components/staggered-grid.tsx";
 
 function App() {
 
