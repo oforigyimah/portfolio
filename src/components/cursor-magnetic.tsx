@@ -1,4 +1,3 @@
-"use client"
 
 import { Cursor, useCursorState } from "motion-plus/react"
 import { animate, motion, useMotionValue } from "motion/react"
@@ -10,24 +9,12 @@ export function CursorMagnetic() {
 
     useEffect(() => {
         if (!state.targetBoundingBox) {
-            /**
-             * If we don't have a current target then we want to make an infinite
-             * rotation animation. We do an infinite rotation between the current rotation
-             * and +360 degrees.
-             */
             animate(rotate, [rotate.get(), rotate.get() + 360], {
                 duration: 3,
                 ease: "linear",
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
             })
         } else {
-            /**
-             * If we do have a target then we want to animate the rotation to
-             * the nearest 180 degree angle. We can use 180 instead of 360 to minimise
-             * the spin and because it doesn't visually matter if the cursor is upside down
-             * for this effect. We could increase the spin by doing something like
-             * (rotate.get() + minimumSpin) / 180
-             */
             animate(rotate, Math.round(rotate.get() / 180) * 180, {
                 type: "spring",
                 bounce: 0.3,
@@ -36,17 +23,9 @@ export function CursorMagnetic() {
     }, [rotate, state.targetBoundingBox])
 
     return (
-        <div className="container">
-            <Button >About</Button>
-            <Button>Blog</Button>
-            <Button>Contact</Button>
-            <Button>Photos</Button>
-
-            <Cursor
-                magnetic={{ morph: false, snap: 0 }}
-                style={{ width: 5, height: 5 }}
-                className="cursor"
-            />
+        <>
+            {/* Cursor that only targets elements with 'magnetic' class */}
+            <Cursor magnetic={{ morph: false, snap: 0 }} style={{ width: 5, height: 5 }} className="cursor" />
             <Cursor
                 magnetic={{ snap: 0.9 }}
                 style={{ rotate, width: 40, height: 40 }}
@@ -63,17 +42,32 @@ export function CursorMagnetic() {
                 </>
             </Cursor>
             <Stylesheet />
-        </div>
+        </>
     )
 }
 
-function Button({ children }: { children: React.ReactNode }) {
-    return (
-        <motion.button className="button" whileTap={{ scale: 0.9 }}>
-            {children}
-        </motion.button>
-    )
-}
+// function Button({ children, className }: { children: React.ReactNode; className?: string }) {
+//     const isMagnetic = className?.includes("magnetic") && !className?.includes("non-magnetic")
+//
+//     return (
+//         <motion.button
+//             className={`
+//         bg-transparent p-2 w-36 h-12 text-white flex items-center justify-center
+//         border rounded-none select-none gap-2 relative
+//         ${
+//                 isMagnetic
+//                     ? "border-solid border-green-400 bg-green-400/10 hover:bg-green-400/20"
+//                     : "border-dashed border-red-400 bg-red-400/5 hover:bg-red-400/10"
+//             }
+//         ${className || ""}
+//       `}
+//             whileTap={{ scale: 0.9 }}
+//         >
+//             {children}
+//             <span className="text-xs opacity-80">{isMagnetic ? "🧲" : "🚫"}</span>
+//         </motion.button>
+//     )
+// }
 
 function Corner({
                     thickness = 2,
@@ -91,7 +85,7 @@ function Corner({
         <>
             <motion.div
                 layout
-                className="corner"
+                className="bg-white absolute"
                 style={{
                     width: thickness,
                     height: length,
@@ -100,7 +94,7 @@ function Corner({
             />
             <motion.div
                 layout
-                className="corner"
+                className="bg-white absolute"
                 style={{
                     width: length,
                     height: thickness,
@@ -119,36 +113,8 @@ function Stylesheet() {
     return (
         <style>
             {`
-                .container {
-                    display: grid;
-                    grid-template-columns: 1fr 400px;
-                    gap: 30px;
-                    align-items: center;
-                    justify-content: center;
-                }
-                
-                @media (max-width: 650px) {
-                    .container {
-                        grid-template-columns: 1fr 200px;
-                        gap: 10px;
-                    }
-                }
-
-                .container > :nth-child(4) {
-                    grid-column: 2;
-                    grid-row: 1 / span 3;
-                    width: 100%;
-                    height: 100%;
-                    box-sizing: border-box;
-                }
-
-                .corner {
-                    background: green;
-                    position: absolute;
-                }
-
                 .cursor {
-                    background-color: #f5f5f5;
+                    background-color: var(--white);
                 }
 
                 .reticule {
@@ -156,18 +122,22 @@ function Stylesheet() {
                     border-radius: 0;
                 }
 
-                .button {
-                    background: none;
-                    padding: 8px;
-                    width: 140px;
-                    height: 50px;
-                    color: white;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border: 1px dashed #fff4;
-                    border-radius: 0;
-                    user-select: none;
+                /* Hide non-magnetic elements from cursor detection */
+                .non-magnetic {
+                    pointer-events: none !important;
+                }
+                
+                .non-magnetic:hover {
+                    pointer-events: auto !important;
+                }
+
+                /* Ensure the grid positioning works */
+                .grid > :nth-child(6) {
+                    grid-column: 2;
+                    grid-row: 1 / span 4;
+                    width: 100%;
+                    height: 100%;
+                    box-sizing: border-box;
                 }
             `}
         </style>
