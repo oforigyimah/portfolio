@@ -1,25 +1,27 @@
-import {Nav} from "@/components/nav.tsx";
-import {Button} from "@/components/ui/button.tsx";
-
+import {Link} from "react-router-dom"
+import {Nav} from "@/components/nav.tsx"
+import {MobileNav} from "@/components/mobile-nav.tsx"
+import {Button} from "@/components/ui/button.tsx"
 
 export function Header() {
+  return (
+    <header className="relative z-30 py-8 text-white xl:py-12">
+      <div className="container mx-auto flex items-center justify-between no-magnetic">
+        <Link to="/">
+          <h1 className="text-4xl font-semibold w-fit">
+            Ofori <span className="text-primary">.</span>
+          </h1>
+        </Link>
 
-    return <header className="py-8 xl:py-12  text-white">
-        <div className="container mx-auto flex items-center justify-between no-magnetic">
-            {/*Logo*/}
-            <a href="/" >
-                <h1 className="text-4xl font-semibold w-fit">
-                    Ofori <span className="text-primary">.</span>
-                </h1>
-            </a>
-            {/*    Desktop nav*/}
-            <div className="hidden xl:flex gap-8">
-                <Nav/>
-                <a href="/contact" className="">
-                    <Button>Hire me</Button>
-                </a>
-            </div>
-            <div className="xl:hidden">mobile nav</div>
+        <div className="hidden xl:flex gap-8">
+          <Nav />
+          <Link to="/contact">
+            <Button>Hire me</Button>
+          </Link>
         </div>
+
+        <MobileNav />
+      </div>
     </header>
+  )
 }
