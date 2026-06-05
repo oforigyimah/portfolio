@@ -8,6 +8,7 @@ import {ServicesPage} from "@/pages/services.tsx"
 import {ResumePage} from "@/pages/resume.tsx"
 import {WorkPage} from "@/pages/work.tsx"
 import {ContactPage} from "@/pages/contact.tsx"
+import {Analytics} from "@vercel/analytics/react"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Footer />
           </div>
         </CursorMagnetic>
+        <Analytics />
       </BrowserRouter>
     </ThemeProvider>
   )
