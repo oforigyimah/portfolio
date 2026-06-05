@@ -1,6 +1,7 @@
 import {CursorMagnetic} from "./components/cursor-magnetic.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {Header} from "@/components/header.tsx";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
             <Header/>
             <CursorMagnetic/>
         </div>
+        <SpeedInsights />
         </ThemeProvider>
 
     )
