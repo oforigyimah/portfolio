@@ -9,6 +9,7 @@ import {ResumePage} from "@/pages/resume.tsx"
 import {WorkPage} from "@/pages/work.tsx"
 import {ContactPage} from "@/pages/contact.tsx"
 import {Analytics} from "@vercel/analytics/react"
+import {SpeedInsights} from "@vercel/speed-insights/react"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           </div>
         </CursorMagnetic>
         <Analytics />
+        <SpeedInsights />
       </BrowserRouter>
     </ThemeProvider>
   )
